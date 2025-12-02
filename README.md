@@ -1,5 +1,5 @@
-<div align="center">
-  <img src="icon-github.png" alt="Kill Cursor" width="256">
+<div align="left">
+  <img src="icon-github.png" alt="Kill Cursor" width="160">
 </div>
 
 # Kill Cursor - macOS Status Bar App
