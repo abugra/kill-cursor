@@ -8,7 +8,7 @@ A simple macOS application that appears in the Status Bar and allows you to comp
 
 ## Why This App Exists
 
-This app was created to solve a problem: even after quitting Cursor IDE, it continues running in the background and consumes significant battery power. Kill Cursor allows you to completely terminate all Cursor processes with a single click, preventing unnecessary battery drain.
+This app was created to solve a problem: even after quitting Cursor IDE, it continues running in the background and consumes significant battery power. This issue particularly occurs when running processes with tmux or similar terminal multiplexers. Kill Cursor allows you to completely terminate all Cursor processes with a single click, preventing unnecessary battery drain.
 
 ## Features
 
