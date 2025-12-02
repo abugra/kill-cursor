@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="icon-github.png" alt="Kill Cursor" width="256">
+</div>
+
 # Kill Cursor - macOS Status Bar App
 
 A simple macOS application that appears in the Status Bar and allows you to completely close Cursor IDE.
