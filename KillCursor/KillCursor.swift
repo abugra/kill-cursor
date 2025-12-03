@@ -74,6 +74,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func killCursor() {
+        // First, kill tmux session if it exists
+        let tmuxTask = Process()
+        tmuxTask.launchPath = "/usr/bin/tmux"
+        tmuxTask.arguments = ["kill-session", "-t", "project-dev"]
+        
+        // Suppress output for tmux command (session might not exist)
+        tmuxTask.standardError = Pipe()
+        tmuxTask.standardOutput = Pipe()
+        
+        do {
+            try tmuxTask.run()
+            tmuxTask.waitUntilExit()
+            // Continue regardless of tmux result
+        } catch {
+            // Ignore tmux errors (tmux might not be installed or session might not exist)
+        }
+        
         // Find and kill all Cursor processes
         let task = Process()
         task.launchPath = "/usr/bin/killall"
