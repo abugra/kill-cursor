@@ -52,6 +52,11 @@ cp -r build/KillCursor.app /Applications/
 - macOS 11.0 or later
 - Swift compiler
 
+## Compatibility
+
+- Builds as a **Universal Binary** (Intel + Apple Silicon)
+- Runs natively on both Intel and M-series Macs
+
 ## Technical Details
 
 - The application runs in the background (LSUIElement = true)
