@@ -9,10 +9,20 @@ echo "Building KillCursor..."
 # Create build directory
 mkdir -p build
 
-# Compile Swift code
-swiftc -o build/KillCursor \
+# Compile Swift code as universal binary (Intel + Apple Silicon)
+swiftc -o build/KillCursor-x86_64 \
     -target x86_64-apple-macosx11.0 \
     KillCursor/KillCursor.swift
+
+swiftc -o build/KillCursor-arm64 \
+    -target arm64-apple-macosx11.0 \
+    KillCursor/KillCursor.swift
+
+# Create universal binary
+lipo -create build/KillCursor-x86_64 build/KillCursor-arm64 -output build/KillCursor
+
+# Clean up intermediate binaries
+rm build/KillCursor-x86_64 build/KillCursor-arm64
 
 # Create app bundle structure
 APP_DIR="build/KillCursor.app"
