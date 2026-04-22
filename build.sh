@@ -79,6 +79,23 @@ if [ -f "icon-dark.png" ] && [ -f "icon-light.png" ]; then
     sips -z 44 44 "icon-light.png" --out "$APP_DIR/Contents/Resources/StatusBarIconLight@2x.png" > /dev/null 2>&1
 fi
 
-echo "Build complete! App is at: $APP_DIR"
+# Ad-hoc code signing
+echo "Signing app..."
+codesign --force --deep --sign - "$APP_DIR"
+
+# Create DMG
+echo "Creating DMG..."
+DMG_DIR="build/dmg"
+DMG_PATH="build/KillCursor.dmg"
+rm -rf "$DMG_DIR" "$DMG_PATH"
+mkdir -p "$DMG_DIR"
+cp -r "$APP_DIR" "$DMG_DIR/"
+ln -s /Applications "$DMG_DIR/Applications"
+hdiutil create -volname "KillCursor" -srcfolder "$DMG_DIR" -ov -format UDZO "$DMG_PATH" > /dev/null 2>&1
+rm -rf "$DMG_DIR"
+
+echo "Build complete!"
+echo "  App: $APP_DIR"
+echo "  DMG: $DMG_PATH"
 echo "To run: open $APP_DIR"
 

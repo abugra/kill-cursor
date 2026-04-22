@@ -12,12 +12,16 @@ This app was created to solve a problem: even after quitting Cursor IDE, it cont
 
 ## Features
 
-- **Status Bar Integration**: Appears in the macOS Status Bar
-- **One-Click Kill**: Kill all Cursor processes with a single click
+- **Status Bar Integration**: Appears in the macOS Status Bar with live Cursor status indicator
+- **One-Click Kill**: Kill all Cursor processes (including Helper, Renderer, GPU, Plugin) with a single click
+- **Global Hotkey**: Press `⌘⇧K` from anywhere to kill Cursor instantly
 - **Dark/Light Mode Support**: Automatically switches icons based on macOS appearance
-- **Notifications**: Shows notifications when Cursor is killed or not found
+- **Notifications**: Shows notifications when Cursor is killed, not found, or permission denied
+- **Launch at Login**: Optionally start KillCursor when you log in
+- **Live Status**: Shows whether Cursor is currently running in the menu
 - **Keyboard Shortcuts**: 
-  - `K` - Kill Cursor
+  - `⌘⇧K` - Kill Cursor (global, works from any app)
+  - `K` - Kill Cursor (from menu)
   - `Q` - Quit application
 - **About Menu**: View app information and credits
 
@@ -43,7 +47,9 @@ cp -r build/KillCursor.app /Applications/
 
 ## Usage
 
-- **Kill Cursor**: Click the icon in the Status Bar or select "Kill Cursor" from the menu (or press `K`)
+- **Kill Cursor**: Press `⌘⇧K` from anywhere, or click the status bar icon and select "Kill Cursor"
+- **Status**: The menu shows whether Cursor is currently running (● running / ○ not running)
+- **Launch at Login**: Toggle from the menu to auto-start KillCursor on login
 - **About**: Select "About Kill Cursor" from the menu to view app information
 - **Quit**: Select "Quit" from the menu (or press `Q`)
 
@@ -60,9 +66,14 @@ cp -r build/KillCursor.app /Applications/
 ## Technical Details
 
 - The application runs in the background (LSUIElement = true)
-- Uses `killall -9 Cursor` command to terminate all Cursor processes
+- Kills all Cursor-related processes: Cursor, Cursor Helper, Cursor Helper (Renderer/GPU/Plugin)
+- Pre-checks process existence with `pgrep` before attempting kill
+- Distinguishes between "not found", "permission denied", and other errors
 - Status bar icons automatically adapt to dark/light mode
-- Shows a notification if Cursor is not running
+- Polls Cursor process status every 5 seconds
+- Global hotkey via `NSEvent.addGlobalMonitorForEvents`
+- Launch at Login via `SMAppService` (macOS 13+) with legacy fallback
+- Ad-hoc code signed for easier distribution
 
 ## Icon Files
 
